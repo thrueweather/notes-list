@@ -1,6 +1,8 @@
 <template>
   <div>
-    <nuxt/>
+    <transition name="slide-fade" mode="out-in">
+      <nuxt/>
+    </transition>
   </div>
 </template>
 
@@ -48,5 +50,12 @@ html {
 .button--grey:hover {
   color: #fff;
   background-color: #35495e;
+}
+
+.slide-fade-enter-active, .slide-fade-leave-active {
+  transition: all .7s ease;
+}
+.slide-fade-enter, .slide-fade-leave-to {
+  opacity: 0;
 }
 </style>
