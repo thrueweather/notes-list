@@ -10,11 +10,33 @@
 			</div>
 			<br>
 			<div class="list">
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, deleniti quidem suscipit voluptatem laboriosam est a amet et vero officiis error voluptainment.
+				<ul>
+					<li
+						v-for="(note, index) in notes"
+						:index="index"
+						:key="note.id"
+						:note="note">
+						<input type="radio" @change="toggle(note)">
+						<p :class="{ done: note.done }">{{ note.text }}</p>
+						<button
+							class="trash-def"
+							:class="{ trash: note.trash }"
+							@click="notes.splice(index, 1)">
+							<trash-2-icon class="custom-class"></trash-2-icon>
+						</button>
+					</li>
+				</ul> 
+			</div>
+			<div class="input" v-show="input">
+				<input 
+					autofocus
+					@keyup.enter="addNotes" 
+					type="text" 
+					placeholder="What do you want to record?">
 			</div>
 			<br>
 			<div style="text-align: center;">
-				<button>
+				<button @click="input = !input">
 					<span style="font-size: 16px; margin-right: 5px">+</span>
 					New tast
 				</button>
@@ -24,15 +46,31 @@
 </template>
 
 <script>
-import { MenuIcon } from 'vue-feather-icons'
+import { MenuIcon, Trash2Icon  } from 'vue-feather-icons'
+import { mapMutations, mapState } from 'vuex'
 export default {
 	name: 'Notes',
 	data: () => ({
-
+		input: false,
 	}),
-	components: {
-		MenuIcon
-	}
+	computed: {
+		notes() {
+			return this.$store.state.notes
+		}
+	},
+	methods: {
+		addNotes(e) {
+			let text = e.target.value
+			if(text.trim() !== '') {
+				this.$store.commit('addNotes', { text })
+			}
+			e.target.value = ''
+		},
+		...mapMutations([
+			'toggle'
+		])
+	},
+	components: { MenuIcon, Trash2Icon  } 
 }
 </script>
 
@@ -64,6 +102,52 @@ export default {
 	.list {
 		background-color: white;
 		padding: 40px 20px;
+	}
+	.list ul li {
+		list-style: none;
+		padding: 4px 0;
+	}
+	input[type='radio'] {
+		outline: none;
+		cursor: pointer;
+	}
+	.list ul li p {
+		display: inline;
+		margin-left: 20px;
+		color: #ada8a8;
+		font-size: 18px;
+		font-weight: 500;
+	}
+	.trash-def {
+		border: none;
+		outline: none;
+		background: none;
+		padding: 0;
+		border-radius: 0;
+		float: right;
+		color: #ada8a8;
+		transition: .3s;
+		display: none;
+	}
+	.trash-def:hover {
+		background: white;
+		color: black;
+	}
+	.input {
+		background-color: white;
+		text-align: center;
+	}
+	.input input {
+		padding: 10px 12px;
+		outline: none;
+		border: 1px solid #eee;	
+		border-radius: 20px;
+	}
+	.done {
+	  text-decoration: line-through;
+	}
+	.trash {
+		display: block;
 	}
 	button {
 		border: none;
