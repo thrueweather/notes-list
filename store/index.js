@@ -1,5 +1,7 @@
 import Vue from 'vue' 
 import Vuex from 'vuex'
+import axios from 'axios'
+
 
 Vue.use(Vuex)
 
@@ -8,18 +10,32 @@ const store = () => new Vuex.Store({
 		notes: []
 	},
 	mutations: {
-		addNotes(state, { text }) {
+		ADD_NOTES (state, { text }) {
 			state.notes.push({
 				text,
 				done: false,
 				trash: false
 			})
 		},
-		toggle(state, notes) {
+		TOGGLE (state, notes) {
 			notes.done = !notes.done,
 			notes.trash = !notes.trash
+		},
+		SET_NOTES (state, notes) {
+			state.notes = notes
 		}
+	},
+	actions: {
+		addNotes({ commit }, notes) {
+			commit('ADD_NOTES', notes)
+		},
+		saveNotes ({ state }) {
+	      axios.put('/api/notes', { notes: state.notes })
+	    },
+	    nuxtServerInit ({ commit }, { req }) {
+	      commit('SET_NOTES', req.session ? (req.session.notes || []) : [])
+	    }
 	}
-});
+}); 
 
 export default store;

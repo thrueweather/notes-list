@@ -16,7 +16,9 @@
 						:index="index"
 						:key="note.id"
 						:note="note">
-						<input type="radio" @change="toggle(note)">
+						<input type="radio"
+						:checked="note.done"
+						@change="TOGGLE(note)">
 						<p :class="{ done: note.done }">{{ note.text }}</p>
 						<button
 							class="trash-def"
@@ -32,7 +34,7 @@
 					autofocus
 					@keyup.enter="addNotes" 
 					type="text" 
-					placeholder="What do you want to record?">
+					placeholder="What do you want to record ?">
 			</div>
 			<br>
 			<div style="text-align: center;">
@@ -46,31 +48,39 @@
 </template>
 
 <script>
-import { MenuIcon, Trash2Icon  } from 'vue-feather-icons'
-import { mapMutations, mapState } from 'vuex'
+import { MenuIcon, Trash2Icon } from 'vue-feather-icons'
+import { mapMutations } from 'vuex'
 export default {
 	name: 'Notes',
 	data: () => ({
-		input: false,
+		input: false
 	}),
 	computed: {
 		notes() {
 			return this.$store.state.notes
 		}
 	},
+	watch: {
+		notes: {
+			handler: 'save'
+		}
+	},
 	methods: {
 		addNotes(e) {
 			let text = e.target.value
 			if(text.trim() !== '') {
-				this.$store.commit('addNotes', { text })
+				this.$store.commit('ADD_NOTES', { text })
 			}
 			e.target.value = ''
 		},
+		save () {
+	      this.$store.dispatch('saveNotes')
+	    },
 		...mapMutations([
-			'toggle'
+			'TOGGLE'
 		])
 	},
-	components: { MenuIcon, Trash2Icon  } 
+	components: { MenuIcon, Trash2Icon }
 }
 </script>
 
