@@ -21,6 +21,14 @@ const store = () => new Vuex.Store({
 			notes.done = !notes.done,
 			notes.trash = !notes.trash
 		},
+		ALL_NOTES (state, done) {
+			state.notes.forEach((note) => {
+				note.done = true
+			})
+		},
+		ALL_CLEAR (state, notes) {
+			var removed = state.notes = []
+		},
 		SET_NOTES (state, notes) {
 			state.notes = notes
 		}
@@ -28,6 +36,12 @@ const store = () => new Vuex.Store({
 	actions: {
 		addNotes({ commit }, notes) {
 			commit('ADD_NOTES', notes)
+		},
+		allNotes({ commit }, note) {
+			commit('ALL_NOTES', note)
+		},
+		allClear({ commit }, notes) {
+			commit('ALL_CLEAR', notes)
 		},
 		saveNotes ({ state }) {
 	      axios.put('/api/notes', { notes: state.notes })

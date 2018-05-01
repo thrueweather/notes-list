@@ -42,6 +42,10 @@
 					<span style="font-size: 16px; margin-right: 5px">+</span>
 					New tast
 				</button>
+				<h3 @click="allNotes">All</h3>
+				<h3 @click="allClear" style="cursor: pointer;">
+					<trash-2-icon class="custom-class"></trash-2-icon>
+				</h3>
 			</div>
 		</div>
 	</div>
@@ -72,6 +76,12 @@ export default {
 				this.$store.commit('ADD_NOTES', { text })
 			}
 			e.target.value = ''
+		},
+		allNotes() {
+			this.$store.commit('ALL_NOTES')
+		},
+		allClear() {
+			this.$store.commit('ALL_CLEAR')
 		},
 		save () {
 	      this.$store.dispatch('saveNotes')

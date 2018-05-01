@@ -12,7 +12,7 @@ app.use(session({
   cookie: { maxAge: 86400000 } // day
 }))
 
-app.put('/api/notes', function (req, res) {
+app.put('/api/notes', (req, res) => {
   req.session.notes = req.body.notes
   res.json(req.session.notes)
 })
