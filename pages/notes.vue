@@ -26,8 +26,8 @@
 							@click="notes.splice(index, 1)">
 							<trash-2-icon class="custom-class"></trash-2-icon>
 						</button>
-					</li>
-				</ul> 
+					</li> 
+				</ul>
 			</div>
 			<div class="input" v-show="input">
 				<input 
@@ -198,5 +198,18 @@ export default {
 	}
 	button:hover {
 		background-color: #bc05bc
+	}
+	@media only screen and (max-width : 991px) {
+	  .notes-wrapp {
+	    width: 80%;
+	  }
+	}
+	@media only screen and (max-width : 480px) {
+	  .list ul {
+	  	padding: 0;
+	  }
+	  .list ul li p {
+	  	font-size: 14px;
+	  }
 	}
 </style>

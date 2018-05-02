@@ -11,7 +11,7 @@
           class="button--grey">Next
         </nuxt-link>
         <a
-          href="https://github.com/nuxt/nuxt.js"
+          href="https://github.com/thrueweather/notes-list"
           target="_blank"
           class="button--grey">GitHub</a>
       </div>
