@@ -6,7 +6,7 @@
 					<menu-icon class="custom-class"></menu-icon>
 				</div>
 				<div><p>Notes List</p></div>
-				<div></div>
+				<div>{{ length }}</div>
 			</div>
 			<br>
 			<div class="list">
@@ -42,7 +42,14 @@
 					<span style="font-size: 16px; margin-right: 5px">+</span>
 					New tast
 				</button>
-				<h3 @click="allNotes">All</h3>
+			</div>
+			<div>
+				<h3 @click="allNotes">
+					<list-icon class="custom-class"></list-icon>
+				</h3>
+				<h3 @click="COMPLETED">
+					<check-icon class="custom-class"></check-icon>
+				</h3>
 				<h3 @click="allClear" style="cursor: pointer;">
 					<trash-2-icon class="custom-class"></trash-2-icon>
 				</h3>
@@ -52,7 +59,7 @@
 </template>
 
 <script>
-import { MenuIcon, Trash2Icon } from 'vue-feather-icons'
+import { MenuIcon, Trash2Icon, CheckIcon, ListIcon } from 'vue-feather-icons'
 import { mapMutations } from 'vuex'
 export default {
 	name: 'Notes',
@@ -62,6 +69,11 @@ export default {
 	computed: {
 		notes() {
 			return this.$store.state.notes
+		},
+		length() {
+			if (this.$store.state.notes != 0) {
+				return this.$store.state.notes.length
+			}
 		}
 	},
 	watch: {
@@ -84,13 +96,14 @@ export default {
 			this.$store.commit('ALL_CLEAR')
 		},
 		save () {
-	      this.$store.dispatch('saveNotes')
+	    	this.$store.dispatch('saveNotes')
 	    },
 		...mapMutations([
-			'TOGGLE'
+			'TOGGLE',
+			'COMPLETED'
 		])
 	},
-	components: { MenuIcon, Trash2Icon }
+	components: { MenuIcon, Trash2Icon, CheckIcon, ListIcon }
 }
 </script>
 
@@ -110,13 +123,13 @@ export default {
 		background-color: purple;
 		color: white;
 		padding: 10px 20px;
+		font-weight: 600;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 	}
 	.nav p {
 		margin: 0;
-		font-weight: 600;
 		margin-right: 30px;
 	}
 	.list {
@@ -169,6 +182,9 @@ export default {
 	.trash {
 		display: block;
 	}
+	.custom-class {
+		cursor: pointer;
+	}
 	button {
 		border: none;
 		background-color: purple;
@@ -177,6 +193,7 @@ export default {
 		padding: 14px 24px;
 		transition: .3s;
 		font-weight: 600;
+		outline: none;
 		cursor: pointer;
 	}
 	button:hover {

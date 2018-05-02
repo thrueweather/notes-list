@@ -24,10 +24,14 @@ const store = () => new Vuex.Store({
 		ALL_NOTES (state, done) {
 			state.notes.forEach((note) => {
 				note.done = true
+				note.trash = true
 			})
 		},
 		ALL_CLEAR (state, notes) {
 			var removed = state.notes = []
+		},
+		COMPLETED (state, note) {
+			state.notes.sort(note => note.done === false)
 		},
 		SET_NOTES (state, notes) {
 			state.notes = notes
