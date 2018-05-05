@@ -29,8 +29,9 @@
 					</li> 
 				</ul>
 			</div>
-			<div class="input" v-show="input">
+			<div class="input">
 				<input 
+					v-model="text"
 					autofocus
 					@keyup.enter="addNotes" 
 					type="text" 
@@ -38,7 +39,7 @@
 			</div>
 			<br>
 			<div style="text-align: center;">
-				<button @click="input = !input">
+				<button @click="addNotes">
 					<span style="font-size: 16px; margin-right: 5px">+</span>
 					New tast
 				</button>
@@ -47,7 +48,7 @@
 				<h3 @click="allNotes">
 					<list-icon class="custom-class"></list-icon>
 				</h3>
-				<h3 @click="COMPLETED">
+				<h3 @click="completed">
 					<check-icon class="custom-class"></check-icon>
 				</h3>
 				<h3 @click="allClear" style="cursor: pointer;">
@@ -64,7 +65,7 @@ import { mapMutations } from 'vuex'
 export default {
 	name: 'Notes',
 	data: () => ({
-		input: false
+		text: ''
 	}),
 	computed: {
 		notes() {
@@ -76,18 +77,17 @@ export default {
 			}
 		}
 	},
-	watch: {
-		notes: {
-			handler: 'save'
-		}
-	},
 	methods: {
-		addNotes(e) {
-			let text = e.target.value
-			if(text.trim() !== '') {
-				this.$store.commit('ADD_NOTES', { text })
+		addNotes() {
+			if(this.text.trim() !== '') {
+				this.$store.commit('ADD_NOTES', { 
+					text: this.text 
+				})
 			}
-			e.target.value = ''
+			this.text = ''
+		},
+		completed() {
+			this.$store.commit('COMPLETED')
 		},
 		allNotes() {
 			this.$store.commit('ALL_NOTES')
@@ -99,9 +99,13 @@ export default {
 	    	this.$store.dispatch('saveNotes')
 	    },
 		...mapMutations([
-			'TOGGLE',
-			'COMPLETED'
+			'TOGGLE'
 		])
+	},
+	watch: {
+		notes: {
+			handler: 'save'
+		}
 	},
 	components: { MenuIcon, Trash2Icon, CheckIcon, ListIcon }
 }

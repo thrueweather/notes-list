@@ -16,11 +16,13 @@ module.exports = {
   /*
   ** Customize the progress bar color
   */
-  loading: { color: '#3B8070' },
+  loading: { color: '#800080' },
   /*
   ** Build configuration
   */
   build: {
+
+    vendor: ['axios'],
     /*
     ** Run ESLint on save
     */

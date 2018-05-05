@@ -28,7 +28,7 @@ const store = () => new Vuex.Store({
 			})
 		},
 		ALL_CLEAR (state, notes) {
-			var removed = state.notes = []
+			let removed = state.notes = []
 		},
 		COMPLETED (state, note) {
 			state.notes.sort(note => note.done === false)
@@ -46,6 +46,9 @@ const store = () => new Vuex.Store({
 		},
 		allClear({ commit }, notes) {
 			commit('ALL_CLEAR', notes)
+		},
+		completed({ commit }, note) {
+			commit('COMPLETED', note)
 		},
 		saveNotes ({ state }) {
 	      axios.put('/api/notes', { notes: state.notes })
