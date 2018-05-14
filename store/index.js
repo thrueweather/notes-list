@@ -31,7 +31,7 @@ const store = () => new Vuex.Store({
 			let removed = state.notes = []
 		},
 		COMPLETED (state, note) {
-			state.notes.sort(note => note.done === false)
+			state.notes.sort(note => note.done !== false)
 		},
 		SET_NOTES (state, notes) {
 			state.notes = notes
